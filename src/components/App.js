@@ -1,7 +1,7 @@
 import React from "react";
 import { Component } from "react";
-import ons from 'onsenui';
 import {Page} from 'react-onsenui';
+import SearchBar from '../containers/search-bar';
 
 export default class App extends Component {
   render() {
@@ -9,6 +9,7 @@ export default class App extends Component {
       <div>
         <Page>
           <h3>Weather App!</h3>
+          <SearchBar />
         </Page>
       </div>
     );
