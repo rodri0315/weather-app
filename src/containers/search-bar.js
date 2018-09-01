@@ -21,19 +21,17 @@ class SearchBar extends Component {
 
   render() {
     return (
-      <div>
-      <ons-row>
-      <ons-col>
+      <div className="row">
         <SearchInput
-      value={this.state.text}
-      onChange={(event) => { this.setState({text: event.target.value})} }
-      modifier='material'
-      placeholder='Carrboro' /></ons-col>
-            <ons-col>
-            <Button modifier="large--cta" onClick={this.onFormSubmit}>
-              Search
-            </Button></ons-col>
-          </ons-row>
+          class="col-sm"
+          value={this.state.text}
+          onChange={(event) => { this.setState({text: event.target.value})} }
+          modifier='material'
+          placeholder='Carrboro' 
+        />
+        <Button modifier="large--cta" onClick={this.onFormSubmit} class="col-sm">
+          Search
+        </Button>
       </div>
     );
   }
