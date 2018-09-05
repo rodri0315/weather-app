@@ -8,30 +8,63 @@ import {SearchInput, Button} from 'react-onsenui';
 class SearchBar extends Component {
   constructor(props) {
     super(props);
-    this.state = { text: "" };
+    this.state = { city: "" };
   }
 
-  onFormSubmit = (event) => {
+  onSubmit = (param, event) => {
     event.preventDefault();
-    console.log('Submitted');
     //Fetch weather data
-    // this.props.fetchWeather(this.state.text);
-    this.setState({ text: "" });
+    if (param === "new") {
+      this.props.fetchWeather(this.state.city).then(() => {
+        this.props.addCity(this.props.weather.city);
+        this.props.currentCity(this.props.weather.city);
+        this.setState({ city: "" });
+      })
+    } else {
+      this.props.fetchWeather(event.target.innerText).then(() => {
+        this.props.currentCity(this.props.weather.city);
+        this.setState({ city: "" });
+      })
+    }
   }
 
   render() {
+    const weather = this.props.weather
     return (
-      <div className="row">
-        <SearchInput
-          class="col-sm"
-          value={this.state.text}
-          onChange={(event) => { this.setState({text: event.target.value})} }
-          modifier='material'
-          placeholder='Carrboro' 
-        />
-        <Button modifier="large--cta" onClick={this.onFormSubmit} class="col-sm">
+      <div className="container">
+        <div className="row">
+          <SearchInput
+            class="mx-auto input"
+            value={this.props.city}
+            onChange={(event) => { this.setState({city: event.target.value})} }
+            modifier='material'
+            placeholder='Carrboro'
+          />
+          
+        </div>
+        <div className="row search-button">
+        <Button modifier="material" onClick={(evt) => this.onSubmit("new", evt)} class="mx-auto">
           Search
         </Button>
+        </div>
+        <div>
+          <div className="list-group">
+          {
+            this.props.cities.length > 0 ?
+            <h2 className="text-center">Searched cities, click a city to view weather again!</h2> : <span></span>
+          }
+            
+            {
+              this.props.cities.map((city, i) => {
+                return (
+                  <a href="#" className="list-group-item list-group-item-action w-50 mx-auto" key={i} onClick={(evt) => this.onSubmit("existing", evt)} >
+                  {city}
+                  </a>
+                )
+              })
+            }
+          </div>
+        </div>
       </div>
     );
   }
@@ -40,5 +73,8 @@ class SearchBar extends Component {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ fetchWeather }, dispatch);
 }
+function mapStateToProps({ weather }) {
+  return { weather };
+}
 
-export default connect(null, mapDispatchToProps)(SearchBar);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);

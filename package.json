@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap": "^4.0.0",
+    "moment": "^2.22.2",
     "onsenui": "^2.10.4",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
